@@ -1,0 +1,50 @@
+﻿-- 테이블 순서는 관계를 고려하여 한 번에 실행해도 에러가 발생하지 않게 정렬되었습니다.
+
+-- USERS Table Create SQL
+CREATE TABLE USERS
+(
+    `user_no`     INT             NOT NULL    AUTO_INCREMENT COMMENT 'user_no', 
+    `user_pw`     VARCHAR2(50)    NULL        COMMENT 'user_pw', 
+    `user_email`  VARCHAR(50)     NULL        COMMENT 'user_email', 
+    `user_pic`    VARCHAR(50)     NULL        COMMENT 'user_pic', 
+    `user_nick`   VARCHAR(50)     NULL        COMMENT 'user_nick', 
+    PRIMARY KEY (user_no)
+);
+
+
+-- USERS Table Create SQL
+CREATE TABLE MUSICS
+(
+    `music_id`  INT             NOT NULL    AUTO_INCREMENT COMMENT 'music_id', 
+    `user_no`   INT             NULL        COMMENT 'user_no', 
+    `genre`     VARCHAR(45)     NULL        COMMENT 'genre', 
+    `title`     VARCHAR(45)     NULL        COMMENT 'title', 
+    `cre_date`  DATE            NULL        COMMENT 'cre_date', 
+    `artist`    VARCHAR2(50)    NULL        COMMENT 'artist', 
+    `count`     INT             NULL        COMMENT 'count', 
+    PRIMARY KEY (music_id)
+);
+
+ALTER TABLE MUSICS
+    ADD CONSTRAINT FK_MUSICS_user_no_USERS_user_no FOREIGN KEY (user_no)
+        REFERENCES USERS (user_no) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+
+-- USERS Table Create SQL
+CREATE TABLE PLAYLIST
+(
+    `playlist_name`  VARCHAR(45)    NOT NULL    COMMENT 'playlist_name', 
+    `user_no`        INT            NOT NULL    COMMENT 'user_no', 
+    `music_id`       INT            NOT NULL    COMMENT 'music_id', 
+    PRIMARY KEY (playlist_name)
+);
+
+ALTER TABLE PLAYLIST
+    ADD CONSTRAINT FK_PLAYLIST_music_id_MUSICS_music_id FOREIGN KEY (music_id)
+        REFERENCES MUSICS (music_id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+ALTER TABLE PLAYLIST
+    ADD CONSTRAINT FK_PLAYLIST_user_no_USERS_user_no FOREIGN KEY (user_no)
+        REFERENCES USERS (user_no) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+
